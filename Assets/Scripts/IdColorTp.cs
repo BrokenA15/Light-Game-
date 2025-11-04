@@ -32,6 +32,9 @@ public class IdColorTp : MonoBehaviour
     private bool rotationLocked = false;
     private Quaternion lockedRotation;
 
+    [SerializeField]
+    private ParticleSystem tpParticles;
+
 
     private void Start()
     {
@@ -106,6 +109,11 @@ public class IdColorTp : MonoBehaviour
             lockedRotation = hingePivot.rotation;
 
         rotationLocked = true;
+
+        if(tpParticles  != null)
+        {
+            tpParticles.Play();
+        }
 
         Debug.Log($"[TP] Jugador teletransportado a {name}");
     }
