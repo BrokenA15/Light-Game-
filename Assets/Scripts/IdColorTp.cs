@@ -33,6 +33,7 @@ public class IdColorTp : MonoBehaviour
     private Quaternion lockedRotation;
 
     [SerializeField]
+    private FillRound chargeBar;
 
 
     private void Start()
@@ -65,8 +66,15 @@ public class IdColorTp : MonoBehaviour
 
         isCharging = true;
         chargeTimer += Time.deltaTime;
+
+        float progress = Mathf.Clamp01(chargeTimer / requiredChargeTime);
+
+        chargeBar.SetFill(progress);
+        Debug.Log("cargando barra");
+
         if (chargeTimer >= requiredChargeTime)
         {
+
             isReady = true;
             OnFullyCharged();
         }
@@ -84,7 +92,6 @@ public class IdColorTp : MonoBehaviour
 
     private void OnFullyCharged()
     {
-        Debug.Log($" [Lampara {name}] Color correcto cargado — Listo para TP.");
         lampMat.SetColor("_EmissionColor", currentColor * 10f);
         if (hingePivot != null)
         {
@@ -110,7 +117,6 @@ public class IdColorTp : MonoBehaviour
         rotationLocked = true;
         
 
-        Debug.Log($"[TP] Jugador teletransportado a {name}");
     }
 
     public void ApplyRecoil(Vector3 fromDirection)

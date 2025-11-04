@@ -26,6 +26,7 @@ public class LightOn : MonoBehaviour
     [Header("Referencias externas")]
     [SerializeField] private Transform playerTransform;
     public CamaraOrbit cameraOrbit;
+    
 
     public int currentColorId;
     private IdColorTp lastLamp;
@@ -129,7 +130,6 @@ public class LightOn : MonoBehaviour
                 {
                     isLampHit = true;
                     lamp.OnMatchedColorHit();
-                    // Cambiar el color de la lámpara según la luz del jugador
                     lamp.SetColor(colorId[currentColorId]);
                     Debug.DrawRay(origin, direction * hit.distance, Color.yellow);
                 }

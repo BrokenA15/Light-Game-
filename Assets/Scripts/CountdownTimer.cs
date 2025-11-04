@@ -12,15 +12,25 @@ public class CountdownTimer : MonoBehaviour
     public TMP_Text timerText;
 
     [Header("Objeto que sube")]
-    public Transform movingObject;      // Asigna aquí el objeto que subirá
-    public float targetHeight = 65.5f;  // Altura final
+    public Transform movingObject;     
+    public Transform Tornado1;
+    public Transform Tornado2;
+    public Transform Tornado3;
+    public float targetHeight = 65.5f;  
     private float initialHeight;
+    private float initialHeightT1;
+    private float initialHeightT2;
+    private float initialHeightT3;
+
 
     void Start()
     {
         currentTime = startTime;
         if (movingObject != null)
             initialHeight = movingObject.position.y;
+        initialHeightT1 = Tornado1.position.y;
+        initialHeightT2 = Tornado2.position.y;
+        initialHeightT3 = Tornado3.position.y;
         UpdateTimerUI();
     }
 
@@ -34,6 +44,7 @@ public class CountdownTimer : MonoBehaviour
 
             UpdateTimerUI();
             MoveObject();
+            MoveTornados();
         }
     }
 
@@ -49,15 +60,31 @@ public class CountdownTimer : MonoBehaviour
     {
         if (movingObject == null) return;
 
-        // Calculamos el progreso (0 = inicio, 1 = final)
         float progress = Mathf.InverseLerp(startTime, 0, currentTime);
 
-        // Interpolamos la posición Y
         float newY = Mathf.Lerp(initialHeight, targetHeight, progress);
 
-        // Aplicamos la nueva posición
         Vector3 pos = movingObject.position;
         pos.y = newY;
         movingObject.position = pos;
+    }
+
+    void MoveTornados()
+    {
+        float progress = Mathf.InverseLerp(startTime, 0, currentTime);
+
+        float newY1 = Mathf.Lerp(initialHeightT1, targetHeight, progress);
+        float newY2 = Mathf.Lerp(initialHeightT2, targetHeight, progress);
+        float newY3 = Mathf.Lerp(initialHeightT3, targetHeight, progress);
+
+        Vector3 pos1 = Tornado1.position;
+        pos1.y = newY1;
+        Vector3 pos2 = Tornado2.position;
+        pos2.y = newY2;
+        Vector3 pos3 = Tornado3.position;
+        pos3.y = newY3;
+        Tornado1.position = pos1;
+        Tornado2.position = pos2;
+        Tornado3.position = pos3;
     }
 }

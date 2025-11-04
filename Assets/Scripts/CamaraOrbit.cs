@@ -34,7 +34,6 @@ public class CamaraOrbit : MonoBehaviour
     {
         if (target == null)
         {
-            Debug.LogWarning("No se ha asignado el Target a la cámara.");
             enabled = false;
             return;
         
