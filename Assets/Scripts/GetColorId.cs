@@ -85,7 +85,6 @@ public class GetColorId : MonoBehaviour
         {
 
             images[currentIndex].transform.localScale = new Vector3(selectedScale, selectedScale, selectedScale);
-            Debug.Log($"Índice actual de color: {currentIndex}");
             colorChange.ChangeColor(currentIndex);
         }
 

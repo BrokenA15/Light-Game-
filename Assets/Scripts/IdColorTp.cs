@@ -32,6 +32,8 @@ public class IdColorTp : MonoBehaviour
     private bool rotationLocked = false;
     private Quaternion lockedRotation;
 
+    [SerializeField]
+
 
     private void Start()
     {
@@ -106,6 +108,7 @@ public class IdColorTp : MonoBehaviour
             lockedRotation = hingePivot.rotation;
 
         rotationLocked = true;
+        
 
         Debug.Log($"[TP] Jugador teletransportado a {name}");
     }
@@ -113,8 +116,8 @@ public class IdColorTp : MonoBehaviour
     public void ApplyRecoil(Vector3 fromDirection)
     {
         if (lampBody == null) return;
-        
 
+        playerLightOn.tpReady.Play();
 
         lampBody.AddForce(fromDirection.normalized * recoilForce, ForceMode.Impulse);
 
@@ -133,16 +136,17 @@ public class IdColorTp : MonoBehaviour
         if (!rotationLocked && hingePivot != null && playerLightOn != null)
         {
             Vector3 direction = playerLightOn.transform.position - hingePivot.position;
-            direction.y = 0f; // solo eje horizontal
+            direction.y = 0f; 
             if (direction.sqrMagnitude > 0.001f)
             {
                 Quaternion targetRot = Quaternion.LookRotation(direction);
+                targetRot *= Quaternion.Euler(0f, 180f, 0f);
                 hingePivot.rotation = Quaternion.Slerp(hingePivot.rotation, targetRot, Time.deltaTime / rotationSmoothTime);
             }
         }
         else if (rotationLocked && hingePivot != null)
         {
-            // mantener rotación bloqueada
+            
             hingePivot.rotation = lockedRotation;
         }
 

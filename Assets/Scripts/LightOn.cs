@@ -30,6 +30,10 @@ public class LightOn : MonoBehaviour
     public int currentColorId;
     private IdColorTp lastLamp;
 
+    public ParticleSystem tpReady;
+    public ParticleSystem tpNotReady;
+
+
     private Dictionary<int, Color> colorId = new Dictionary<int, Color>
     {
         { 0, Color.yellow },   // Amarillo
@@ -48,13 +52,14 @@ public class LightOn : MonoBehaviour
         m_activateLight = InputSystem.actions.FindAction("ActivateLight");
         m_transportLamp = InputSystem.actions.FindAction("TransportLamp");
         colorMat.color = Color.black;
+        tpNotReady.Stop();
+        tpReady.Stop();
 
     }
 
     void Start()
     {
         lightSettings = GetComponent<Light>();
-
         colorMat.color = Color.black;
         colorMat.SetColor("_EmissionColor", Color.black * 0f);
         lightSettings.intensity = 0f;
@@ -84,11 +89,17 @@ public class LightOn : MonoBehaviour
             ActivateLight();
             DoRaycastCheck();
 
-            if (m_transportLamp != null && m_transportLamp.WasPressedThisFrame() && lastLamp != null && lastLamp.isReady)
+            if (m_transportLamp != null && m_transportLamp.WasPressedThisFrame())
             {
-                 TransportLamp(lastLamp.transform);
+                if(lastLamp != null && lastLamp.isReady)
+                {
+                    TransportLamp(lastLamp.transform);
+                }
+                else
+                {
+                    tpNotReady.Play();
+                }
             }
-
         }
         else
         {
