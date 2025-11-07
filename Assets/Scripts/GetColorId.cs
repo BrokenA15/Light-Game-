@@ -55,10 +55,6 @@ public class GetColorId : MonoBehaviour
             MoveSelection(1);
         else if (input.x < -0.5f)
             MoveSelection(-1);
-        else if (input.y > 0.5f)
-            MoveSelection(-3); 
-        else if (input.y < -0.5f)
-            MoveSelection(3); 
     }
 
     private void MoveSelection(int change)
