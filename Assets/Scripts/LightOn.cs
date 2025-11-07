@@ -40,12 +40,9 @@ public class LightOn : MonoBehaviour
         { 0, Color.yellow },   // Amarillo
         { 1, Color.red },     // Rojo
         { 2, Color.blue },    // Azul
-        { 3, Color.purple },   // Morado
-        { 4, Color.green },   // Verde 
-        { 5, Color.orange }, //Naranja      
-        { 6, Color.cyan },   // Cyan
-        { 7, Color.deepPink },    // Rosa 
-        { 8, Color.white }, // Blanco 
+        { 3, Color.green },   // Verde 
+        { 4, Color.deepPink },    // Rosa 
+       
         
     };
     private void Awake()
