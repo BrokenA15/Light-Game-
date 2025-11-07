@@ -35,6 +35,8 @@ public class LightOn : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private GameObject playerLamp;
     [SerializeField] private Transform playerLampTransform;
+    private Quaternion lampRotation;
+    private Vector3 lampPosition;
     [SerializeField] private Transform Player;
     [SerializeField] private Transform Light;
     private Vector3 lightScale;
@@ -73,6 +75,9 @@ public class LightOn : MonoBehaviour
         tpNotReady.Stop();
         tpReady.Stop();
         lightScale = Light.localScale;
+        lampRotation = transform.localRotation;
+        lampPosition = transform.localPosition;
+
 
     }
 
@@ -244,22 +249,24 @@ public class LightOn : MonoBehaviour
         if (playerLampTransform != null)
         {
             transform.SetParent(playerLampTransform);
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
+            transform.localPosition = lampPosition;
+            transform.localRotation = lampRotation;
             transform.localScale = lightScale;
+            playerLamp.SetActive(true);
+
         }
 
         transform.SetParent(playerLampTransform);
-        transform.localPosition = Vector3.zero;
-        transform.rotation = Quaternion.identity;
+        transform.localPosition = lampPosition;
         lightRotation.enabled = false;
         playerCamera.enabled = true;
         lampCamera.enabled = false;
         movement.UnblockJump();
         movement.EnableMovement();   
         playerLamp.SetActive(true);
-        transform.localRotation = Quaternion.identity;
+        transform.localRotation = lampRotation;
         transform.localScale = lightScale;
+
 
 
 
