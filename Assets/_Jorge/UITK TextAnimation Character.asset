@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06e11c4c5c4b449a812a3770fde37513, type: 3}
+  m_Name: UITK TextAnimation Character
+  m_EditorClassIdentifier: UIToolkitTextAnimation::Kamgam.UIToolkitTextAnimation.TextAnimationCharacter
+  m_id: 'CURRENT OBJECTIVE: GET TO THE TOP'
+  Delay: 0
+  Speed: 1
+  Modules:
+  - rid: 2938514257492312189
+  references:
+    version: 2
+    RefIds:
+    - rid: 2938514257492312189
+      type: {class: TextAnimationCharacterShakeModule, ns: Kamgam.UIToolkitTextAnimation, asm: UIToolkitTextAnimation}
+      data:
+        name: XD
+        Speed: 10
+        MaxDisplacement: {x: 1, y: 3}
+        Offset: {x: 0, y: 0}
+        AffectedCorners:
+          BottomLeft: 1
+          TopLeft: 1
+          TopRight: 1
+          BottomRight: 1
