@@ -26,6 +26,7 @@ public class LightOn : MonoBehaviour
     [Header("Referencias externas")]
     [SerializeField] private Transform playerTransform;
     public CamaraOrbit cameraOrbit;
+    public SFPSC_PlayerMovement movement;
     
 
     public int currentColorId;
@@ -153,6 +154,7 @@ public class LightOn : MonoBehaviour
 
         transform.SetParent(lampTransform);
         transform.localPosition = Vector3.zero;
+        
 
 
         if (cameraOrbit != null)

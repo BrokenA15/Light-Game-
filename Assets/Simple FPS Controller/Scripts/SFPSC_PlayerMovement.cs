@@ -146,12 +146,16 @@ public class SFPSC_PlayerMovement : MonoBehaviour
     }*/
     #endregion
 
-    private void UnblockJump()
+    public void UnblockJump()
     {
         jumpBlocked = false;
     }
-    
-    
+
+    public void BlockJump()
+    {
+        jumpBlocked = false;
+    }
+
     // Enables jumping and player movement
     public void EnableMovement()
     {
