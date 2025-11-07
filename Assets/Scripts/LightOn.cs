@@ -15,19 +15,31 @@ public class LightOn : MonoBehaviour
     public float rayLength = 10f;
     private float rayRadius = 0.3f;
     public Vector3 rayOffset = Vector3.zero;      
-    public bool isLampHit = false;                
+    public bool isLampHit = false;         
+    public bool isFloorHit = false;
     public LayerMask raycastLayers = Physics.DefaultRaycastLayers;
+    public float floorYOffset = 1.5f;
 
     [Header("Input System")]
     public InputActionAsset inputActions;
     private InputAction m_activateLight;
     private InputAction m_transportLamp;
+    private InputAction m_returnPlayer;
 
     [Header("Referencias externas")]
     [SerializeField] private Transform playerTransform;
     public CamaraOrbit cameraOrbit;
     public SFPSC_PlayerMovement movement;
-    
+    [SerializeField] private LightRotation lightRotation;
+    [SerializeField] private Camera lampCamera;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private GameObject playerLamp;
+    [SerializeField] private Transform playerLampTransform;
+    [SerializeField] private Transform Player;
+    [SerializeField] private Transform Light;
+    private Vector3 lightScale;
+    private RaycastHit floorHitInfo;
+
 
     public int currentColorId;
     private IdColorTp lastLamp;
@@ -50,11 +62,20 @@ public class LightOn : MonoBehaviour
     {
         m_activateLight = InputSystem.actions.FindAction("ActivateLight");
         m_transportLamp = InputSystem.actions.FindAction("TransportLamp");
+
+
+
         colorMat.color = Color.black;
+        lightRotation.enabled = false;
+        playerCamera.enabled = true;
+        lampCamera.enabled = false;
+        playerLamp.SetActive(true);
         tpNotReady.Stop();
         tpReady.Stop();
+        lightScale = Light.localScale;
 
     }
+
 
     void Start()
     {
@@ -90,14 +111,7 @@ public class LightOn : MonoBehaviour
 
             if (m_transportLamp != null && m_transportLamp.WasPressedThisFrame())
             {
-                if(lastLamp != null && lastLamp.isReady)
-                {
-                    TransportLamp(lastLamp.transform);
-                }
-                else
-                {
-                    tpNotReady.Play();
-                }
+                TransportLampOrReturn();
             }
         }
         else
@@ -109,6 +123,7 @@ public class LightOn : MonoBehaviour
     private void DoRaycastCheck()
     {
         isLampHit = false;
+        isFloorHit = false;
 
         Vector3 origin = transform.position + rayOffset;
         Vector3 direction = transform.forward;
@@ -137,6 +152,18 @@ public class LightOn : MonoBehaviour
                     lamp.OnRayExit();
                     Debug.DrawRay(origin, direction * hit.distance, Color.red);
                 }
+            }
+            else if (hit.collider.CompareTag("Floor"))
+            {
+                isFloorHit = true;
+                floorHitInfo = hit;
+                Debug.Log("TP a floor listo");
+                Debug.DrawRay(origin, direction * hit.distance, Color.green);
+            }
+            else
+            {
+                ResetLamp();
+                Debug.DrawRay(origin, direction * hit.distance, Color.red);
             }
         }
         else
@@ -173,6 +200,71 @@ public class LightOn : MonoBehaviour
             lamp.ApplyRecoil(travelDir);
         }
 
+        lightRotation.enabled = true;
+        playerCamera.enabled = false;
+        lampCamera.enabled = true;
+        movement.BlockJump();
+        movement.DisableMovement();
+        playerLamp.SetActive(false);
+
+    }
+
+    private void TransportLampOrReturn()
+    {
+        // Prioriza lámpara si la hay y está ready
+        if (lastLamp != null && lastLamp.isReady && isLampHit)
+        {
+            TransportLamp(lastLamp.transform);
+            return;
+        }
+
+        // Si no hay lámpara válida pero sí piso, regresa al Player
+        if (isFloorHit)
+        {
+            ReturnToPlayer(floorHitInfo.point);
+            return;
+        }
+
+        // Ningún objetivo válido
+        tpNotReady.Play();
+        Debug.Log("Ningún objetivo válido para TP");
+    }
+
+ 
+
+    private void ReturnToPlayer(Vector3 floorPoint)
+    {
+        if (Player == null) return;
+
+        
+        Vector3 targetPos = floorPoint + Vector3.up * floorYOffset;
+        Player.SetParent(null);
+        Player.position = targetPos;
+
+        if (playerLampTransform != null)
+        {
+            transform.SetParent(playerLampTransform);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+            transform.localScale = lightScale;
+        }
+
+        transform.SetParent(playerLampTransform);
+        transform.localPosition = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+        lightRotation.enabled = false;
+        playerCamera.enabled = true;
+        lampCamera.enabled = false;
+        movement.UnblockJump();
+        movement.EnableMovement();   
+        playerLamp.SetActive(true);
+        transform.localRotation = Quaternion.identity;
+        transform.localScale = lightScale;
+
+
+
+
+        Debug.Log("Jugador regresó del modo lámpara al piso");
     }
 
 

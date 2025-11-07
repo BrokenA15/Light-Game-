@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 3
-  m_LightingDataAsset: {fileID: 112000000, guid: 16eff7c9e30a73b418afaaec53346fec, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 0ca72e88ae67d5e43a8fc9fe21115196, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 2621abe12acf9584598debcf2120a565, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -2853,6 +2853,7 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   playerTransform: {fileID: 1936705791}
   cameraOrbit: {fileID: 0}
+  movement: {fileID: 0}
   currentColorId: 0
   tpReady: {fileID: 1493651966}
   tpNotReady: {fileID: 1409739597}
